@@ -1,0 +1,144 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" th:href="@{images/signin.css}">
+    <title>Register</title>
+
+
+
+
+    <!-- Bootstrap core CSS -->
+    <!--<link href="/docs/5.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0" crossorigin="anonymous">-->
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0" crossorigin="anonymous">
+    <style>
+
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            user-select: none;
+        }
+        .alert-info{
+            top: -400px;
+            left: 500px;
+            padding: 10px;
+        }
+        .alert-danger{
+            top: -400px;
+            left: 680px;
+            padding: 10px;
+        }
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+        }
+    </style>
+
+
+<body class="text-center" th:style="'background: url(/images/sfondo-register.jpeg); background-size: cover;'">
+
+<!-- success message -->
+<div th:if="${param.success}">
+    <div class="alert alert-info">Ti sei registrato correttamente al nostro software!</div>
+</div>
+
+<!-- error message -->
+<div th:if="${param.error0}">
+    <div class="alert alert-danger">La password deve contenere almeno una lettera minuscola, una lettera maiuscola, un numero e un simbolo.</div>
+</div>
+
+<!-- error message -->
+<div th:if="${param.error1}">
+    <div class="alert alert-danger">La mail inserita e' in un formato sbagliato.</div>
+</div>
+<div th:if="${param.error1}">
+    <div class="alert alert-danger">La mail inserita e' in un formato sbagliato.</div>
+</div>
+
+<!-- error message -->
+<div th:if="${param.error2}">
+    <div class="alert alert-danger">Il numero di telefono deve contenere solo cifre.</div>
+</div>
+
+<!-- error message -->
+<div th:if="${param.error3}">
+    <div class="alert alert-danger">L'email inserita è già in uso.</div>
+</div>
+
+<!-- error message -->
+<div th:if="${param.error4}">
+    <div class="alert alert-danger">Le password inserite non corrispondono.</div>
+</div>
+
+<main class="form-signin">
+    <form th:action="@{/registration}" method="post" th:object="${utente}">
+        <h1 class="h3 mb-3 fw-normal">Register</h1>
+        <div class="form-floating">
+            <input name="nome" type="text" class="form-control" placeholder="Nome" th:field="*{nome}"
+                   required autofocus="autofocus">
+            <label>Nome</label>
+        </div>
+        <div class="form-floating">
+            <input name="cognome" type="text" class="form-control" placeholder="Cognome" th:field="*{cognome}"
+                   required autofocus="autofocus">
+            <label>Cognome</label>
+        </div>
+        <div class="form-floating">
+            <input name="codice_fiscale" type="text" class="form-control" placeholder="Codice Fiscale" th:field="*{cf}"
+                   required autofocus="autofocus">
+            <label>Codice Fiscale</label>
+        </div>
+        <div class="form-floating">
+            <input name="dataNascita" type="date" class="form-control" placeholder="DataNascita" th:field="*{data_nascita}"
+                   required autofocus="autofocus">
+            <label>Data di nascita</label>
+        </div>
+        <div class="form-floating" >
+            <select class="form-control" type="text" style="background: white;" th:field="*{genere}"
+                    required autofocus="autofocus">
+                <option value="M">M</option>
+                <option value="F">F</option>
+            </select>
+            <label>Genere</label>
+        </div>
+        <div class="form-floating">
+            <input name="indirizzo" type="text" class="form-control" placeholder="Indirizzo" th:field="*{indirizzo}"
+                   required autofocus="autofocus">
+            <label>Indirizzo</label>
+        </div>
+        <div class="form-floating">
+            <input name="telefono" type="text" class="form-control" placeholder="Telefono" th:field="*{telefono}"
+                   required autofocus="autofocus">
+            <label>Telefono</label>
+        </div>
+        <div class="form-floating">
+            <input name="email" type="email" class="form-control" placeholder="name@example.com" th:field="*{email}"
+                   required autofocus="autofocus">
+            <label>Email address</label>
+        </div>
+        <div class="form-floating">
+            <input name="password" type="password" class="form-control" placeholder="Password" style="margin-bottom: 0px!important;" th:field="*{password}"
+                   required autofocus="autofocus">
+            <label>Password</label>
+        </div>
+        <div class="form-floating">
+            <input name="confirm_password" type="password" class="form-control" placeholder="Confirm password" style="..." th:field="*{pswconfirm}"
+                   required autofocus="autofocus">
+            <label>Confirm password</label>
+        </div>
+        <button name="register" class="w-100 btn btn-lg btn-dark" type="submit"> Sign up</button>
+    </form>
+    <a style="text-decoration: none; color: black;" href="/" th:href="@{/login}">
+        <p class="mt-5 mb-3 text-muted" style="color: white!important;">Hai già un account? Effettua il login</p>
+    </a>
+
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-p34f1UUtsS3wqzfto5wAAmdvj+osOnFyQFpp4Ua3gs/ZVWx6oOypYoCJhGGScy+8" crossorigin="anonymous"></script>
+
+</body>
+</html>
