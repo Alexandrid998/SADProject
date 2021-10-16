@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-sprinsecurity5">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0" crossorigin="anonymous">
+    <link rel="stylesheet" th:href="@{images/style.css}">
+    <title>Riepilogo Prenotazioni</title>
+    <style>
+        li{
+            list-style: none;
+        }
+        .nav-link.dropdown-toggle{
+            color: white!important;
+            position: relative;
+            right:  70px;
+        }
+        .nav-link:hover{
+            color: white;
+        }
+        .alert-danger{
+            left: 650px;
+            width: 440px;
+            display: inline-block;
+        }
+        .alert-info{
+            left: 650px;
+            width: 440px;
+            display: inline-block;
+        }
+        table {
+            border-collapse:collapse
+        }
+        td, th {
+            border:1px solid #ddd;
+            padding:8px;
+        }
+        html, body {
+            min-height: 100%;
+        }
+        body, div, form, input, select, p {
+            padding: 0;
+            margin: 0;
+            outline: none;
+            font-family: Roboto, Arial, sans-serif;
+            font-size: 14px;
+            color: #666;
+            line-height: 22px;
+        }
+        h1 {
+            position: absolute;
+            margin: 0;
+            font-size: 36px;
+            color: #fff;
+            z-index: 2;
+        }
+        .testbox {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: inherit;
+            padding: 20px;
+        }
+        .page{
+            width: 50%;
+            padding: 20px;
+            border-radius: 6px;
+            background: #fff;
+            box-shadow: 0 0 30px 0 #095484;
+        }
+        .banner {
+            position: relative;
+            height: 180px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+        .banner::after {
+            content: "";
+            background-color: rgba(0, 0, 0, 0.4);
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+        p.top-info {
+            margin: 10px 0;
+        }
+        .btn-block {
+            margin-top: 10px;
+            text-align: center;
+        }
+        button {
+            width: 150px;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background: #095484;
+            font-size: 16px;
+            color: #fff;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #0666a3;
+        }
+    </style>
+<body th:style="'background: url(/images/sfondo-riepilogo.jpeg); background-size: cover;'">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" style="color: white" href="#">ZeusFit</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarColor01">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link active" style="color: white" th:href="@{/homepage}">Home
+                        <span class="visually-hidden">(current)</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" style="color: white" th:href="@{/homepage/riepilogo-prenotazioni}">Riepilogo Prenotazioni</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" style="color: white" th:href="@{/homepage/visualizza-abbonamenti}">Visualizza Abbonamenti</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" style="color: white" th:href="@{/homepage/carica-saldo}">Carica Saldo</a>
+                </li>
+                <li>
+                    <img th:src="@{'/images/soldi.png'}" style="width: 30px;"> <span th:text="*{saldo}" ></span>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><b>Benvenuto <span th:text="*{nome}"></span></b></a>
+        <div class="dropdown-menu" style="left: -65px!important;">
+            <a class="dropdown-item" th:href="@{/logout}">Logout</a>
+        </div>
+    </li>
+</nav>
+<!-- error message -->
+<div th:if="${param.success0}">
+    <div class="alert alert-info">Ti sei registrato correttamente alla lezione!</div>
+</div>
+<div th:if="${param.success1}">
+    <div class="alert alert-info">Hai cancellato la prenotazione correttamente!</div>
+</div>
+<div th:if="${param.error4}">
+    <div class="alert alert-danger">Non puoi più cancellare questa prenotazione!</div>
+</div>
+<div th:if="${param.error2}">
+    <div class="alert alert-danger">I posti per questa lezione sono terminati!</div>
+</div>
+<div th:if="${param.error3}">
+    <div class="alert alert-danger">Non hai abbastanza saldo per poterti prenotare a questa lezione!</div>
+</div>
+<div th:if="${param.error1}">
+    <div class="alert alert-danger">Già sei prenotato per questa lezione!</div>
+</div>
+
+
+<div class="testbox">
+    <div class="page" >
+        <div class="banner" th:style="'background: url(/images/sfondo-riepilogo.jpeg); background-size: cover;'">
+            <h1>PRENOTAZIONI</h1>
+        </div>
+        <h2>Lista Prenotazioni</h2>
+        <table border="1" class = "table table-over">
+            <thead>
+            <tr class="w3-red">
+                <th>
+                    CORSO</a>
+                </th>
+                <th>
+                    GIORNO</a>
+                </th>
+                <th>
+                    ORARIO</a>
+                </th>
+                <th>
+                    DURATA</a>
+                </th>
+                <th>
+                    SALA</a>
+                </th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr th:each="prenotazione : ${prenotazioni}">
+                <td th:text="${prenotazione.corso}">
+                <td th:text="${prenotazione.giorno}">
+                <td th:text="${prenotazione.orario}">
+                <td th:text="${prenotazione.durata}">
+                <td th:text="${prenotazione.sala}">
+                <td><a class="btn btn-danger" th:href="@{/homepage/elimina-prenotazione/{id}(id=${prenotazione.id})}">Elimina</a></td>
+            </tbody>
+        </table>
+        </tr>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-p34f1UUtsS3wqzfto5wAAmdvj+osOnFyQFpp4Ua3gs/ZVWx6oOypYoCJhGGScy+8" crossorigin="anonymous"></script>
+</body>
+</html>

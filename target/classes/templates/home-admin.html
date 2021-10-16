@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-sprinsecurity5">
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0" crossorigin="anonymous">
+  <link rel="stylesheet" th:href="@{images/style.css}">
+  <title>Homepage Admin</title>
+  <script type='text/javascript'>
+    // Funzione che permette di aggiungere elementi al form (in questo caso rate)
+    function Mostra_Posti(giorno){
+      var day = giorno.value;
+      var box = document.getElementById('posti');
+      if(isNaN(day)==true){
+          box.innerHTML='';
+      }else{
+        var riga = "";
+        riga = 'th:text="${listCorsi.lezioni[corsoStat.index]["+day+"].num_posti_disponibili}"'
+        // Aggiorno il contenuto del box che conterrà l'elemento
+        box.setAttribute('th:text',"${listCorsi.lezioni[corsoStat.index][\"+day+\"].num_posti_disponibili}\"");
+        }
+    }
+  </script>
+  <style>
+    .nav-link{
+      color: white;
+    }
+    table {
+      border-collapse:collapse
+    }
+    td, th {
+      border:1px solid #ddd;
+      padding:8px;
+    }
+    div.card{
+      float: left;
+      margin-left: 40px;
+      margin-top: 15px;
+    }
+    #myVideo{
+      position: fixed;
+      right: 0;
+      bottom: 0;
+      min-width: 100%;
+      min-height: 100%;
+    }
+    .flip-card {
+      float: left;
+      margin-left: 40px;
+      margin-top: 15px;
+      background-color: transparent;
+      width: 300px;
+      height: 300px;
+      perspective: 1000px;
+    }
+
+    .flip-card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      text-align: center;
+      transition: transform 0.6s;
+      transform-style: preserve-3d;
+      box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    }
+
+    .flip-card:hover .flip-card-inner {
+      transform: rotateY(180deg);
+    }
+
+    .flip-card-front, .flip-card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+    }
+
+    .flip-card-front {
+      background-color: #bbb;
+      color: black;
+    }
+
+    .flip-card-back {
+      background-color: #2980b9;
+      color: white;
+      transform: rotateY(180deg);
+    }
+  </style>
+</head>
+<body>
+<video autoplay muted loop id="myVideo">
+  <source th:src="@{images/videohomepage.mp4}" type="video/mp4">
+</video>
+<nav class="navbar navbar-expand-lg navbar-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" style="color: white" href="#">ZeusFit</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarColor01">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <a class="nav-link active" style="color: white" th:href="@{/home-admin}">Home
+            <span class="visually-hidden">(current)</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" style="color: white" th:href="@{/home-admin/inserisci-corso}">Inserisci Corso</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" style="color: white" th:href="@{/home-admin/gestisci-abbonamenti}">Gestisci Abbonamenti</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <li class="nav-item dropdown">
+    <div sec:authorize="isAuthenticated()">
+    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Benvenuto <b>ADMIN</b></a>
+    <div class="dropdown-menu" style="left: -65px!important;">
+      <a class="dropdown-item" th:href="@{/logout}">Logout</a>
+    </div>
+    </div>
+  </li>
+</nav>
+
+<div th:if="${param.success1}">
+  <div class="alert alert-success">Hai eliminato correttamente un corso con le sue lezioni!</div>
+</div>
+
+<div th:if="${param.success0}">
+  <div class="alert alert-success">Hai aggiunto con successo una nuova lezione!</div>
+</div>
+
+<!--<div class="card" style="width: 18rem;" th:each="corso: ${listCorsi}">
+  <img class="card-img-top" th:src="@{'images/'+${corso.urlimm}}" alt="Card image cap">
+  <div class="card-body">
+    <h5 class="card-title" th:text="${corso.nome}"></h5>
+    <p class="card-text" th:text="${corso.descrizione}"></p>-->
+<div class="flip-card" th:each="corso: ${listCorsi.corsi}">
+  <div class="flip-card-inner">
+    <div class="flip-card-front">
+      <img th:src="@{'images/'+${corso.urlimm}}" alt="Avatar" style="width:300px;height:300px;">
+    </div>
+    <div class="flip-card-back" style="background-color: #000000";>
+      <h1 th:text="${corso.nome}"></h1>
+      <p th:text="${corso.descrizione}"></p>
+        <!--<select onchange="Mostra_Posti(this)" name="giorno">
+          <option th:each="lezione:${listCorsi.lezioni[corsoStat.index]}" th:value="${lezioneStat.index}" th:text="${lezione.giorno}"></option>
+        </select>
+        <label>Posti Disponibili Lezione</label>
+        <p id="posti">
+        </p>-->
+    <a class="btn btn-primary" th:href="@{/home-admin/modifica-corso/{id}(id=${corso.id})}">Modifica</a>
+    <a class="btn btn-primary" th:href="@{/home-admin/visualizza-lezioni/{id}(id=${corso.id})}">Visualizza</a>
+    <a class="btn btn-danger"  th:href="@{/home-admin/elimina-corso/{id}(id=${corso.id})}">Elimina</a>
+    </div>
+  </div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-p34f1UUtsS3wqzfto5wAAmdvj+osOnFyQFpp4Ua3gs/ZVWx6oOypYoCJhGGScy+8" crossorigin="anonymous"></script>
+
+</body>
+</html>

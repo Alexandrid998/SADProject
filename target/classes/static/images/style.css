@@ -1,0 +1,71 @@
+.materie{
+    position: relative;
+    top: 450px; left: 500px;
+    width: 1500px!important;
+}
+
+.btn-secondary{
+    border-color: #0d6efd!important;
+    background-color: #0d6efd!important;
+    position: relative;
+    right: 50px;
+}
+
+
+
+.btn-grey{
+    border-color: grey!important;
+    background-color: grey!important;
+}
+
+.bg-primary:hover{
+    color: white;
+}
+
+.bg-danger{
+    position: absolute;
+    left: 520px; bottom: 573px;
+    height: 180px;
+}
+
+.bg-warning{
+    position: absolute;
+    left: 520px; bottom: 378px;
+    height: 180px;
+}
+
+.bg-info{
+    position: absolute;
+    left: 850px; bottom: 572px;
+    height: 180px;
+}
+
+.bg-light{
+    position: absolute;
+    left: 850px; bottom: 378px;
+    height: 180px;
+}
+
+
+
+.btn-danger:focus{
+    border:none;
+}
+
+li{
+    list-style: none;
+}
+
+.nav-link.dropdown-toggle{
+    color: white!important;
+    position: relative;
+    right:  70px;
+}
+
+.nav-link:hover{
+    color: white;
+}
+
+a{
+    color: white;
+}
